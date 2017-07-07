@@ -6,9 +6,9 @@ export const config = {
   },
   pubnub: {
     authKey: 'server-auth',
-    subscribeKey: 'sub-c-25ff9f44-7f85-11e6-8a0d-0619f8945a4f',
-    publishKey: 'pub-c-52fbe46d-e262-4034-91ae-c9495b7550e6',
-    secretKey: 'sec-c-ZjZkMzJiYzgtMTdhNC00MmZjLWIxNDEtMDVlNTkxZTQyOTkz',
+    subscribeKey: 'sub-c-65b524aa-ee99-11e6-a5f4-02ee2ddab7fe',
+    publishKey: 'pub-c-ec19e776-9092-4b9c-af3c-1d9528bdfcd8',
+    secretKey: 'sec-c-Y2ZlZWIzMGUtYjNhOC00ZGY1LWEyZjEtYmM5MTZkMjY0MGI5',
   },
   github: {
     ios: {

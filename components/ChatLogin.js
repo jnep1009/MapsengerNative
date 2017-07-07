@@ -6,7 +6,7 @@ import {
   Text,
 } from 'react-native';
 
-import Icon from 'react-native-vector-icons/MaterialIcons';
+import { Icon } from 'react-native-elements'
 
 import styles from '../styles';
 
@@ -19,7 +19,10 @@ export class ChatLogin extends Component {
           activeOpacity={0.5}
           onPress={props.onSubmit}>
           <View style={[styles.flxRow]}>
-            <Icon name="vpn-key" size={25} color="white" />
+            <Icon
+                name='ios-american-football'
+                type='ionicon'
+                size={25} color="white" />
             <Text style={[styles.white, styles.f3, styles.ml1]}>Login with GitHub</Text>
           </View>
         </TouchableOpacity>
