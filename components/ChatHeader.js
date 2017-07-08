@@ -7,7 +7,9 @@ import {
     View,
     TouchableOpacity,
 } from 'react-native';
-import { SearchBar, Grid, Col, Icon } from 'react-native-elements'
+import Icon from 'react-native-vector-icons/FontAwesome';
+
+import { SearchBar, Grid, Col } from 'react-native-elements'
 
 import styles from '../styles';
 
@@ -41,8 +43,9 @@ export class ChatHeader extends Component {
                         <TouchableOpacity style={[styles.jcEnd, styles.selfCenter]}
                                           onPress={props.onMenuClick}>
                             <Icon
-                                name='rowing'
-                                size={40} color="white"/>
+                                style={{top:8}}
+                                name='map-o'
+                                size={30} color="white"/>
                         </TouchableOpacity>
                     </Col>
                 </Grid>

@@ -1,4 +1,4 @@
-package com.mapsengernative;
+package com.chat;
 
 import android.app.Application;
 import android.util.Log;

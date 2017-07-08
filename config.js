@@ -12,8 +12,8 @@ export const config = {
   },
   github: {
     ios: {
-      clientId: '31f22fa6339b4b4c1bdd',
-      clientSecret: 'a4b0185bcd7b756431d7d14daca05f947bd5ccd9',
+      clientId: 'b984fc85edb06d9d7b13',
+      clientSecret: 'ac405beb0b00b563944bef7df1c7a5e920a6eca4',
     },
   },
 };

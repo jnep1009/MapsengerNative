@@ -9,14 +9,14 @@ import {Provider} from 'react-redux';
 
 import {configureStore} from './store/configure-store';
 import {Container} from './container';
-
+import {Conversation} from './components/Conversation'
 import styles from './styles';
 
 const initialState = {};
 
 const store = configureStore(initialState);
 
-class MapsengerNative extends React.Component {
+class Chat extends React.Component {
   render() {
     return (
       <View style={[styles.flx1, styles.selfStretch]}>
@@ -28,4 +28,4 @@ class MapsengerNative extends React.Component {
   }
 }
 
-AppRegistry.registerComponent('Chat', () => MapsengerNative);
+AppRegistry.registerComponent('Chat', () => Chat);
