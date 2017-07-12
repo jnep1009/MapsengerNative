@@ -33,6 +33,14 @@ export class ChatHeader extends Component {
             <View style={containerStyle}>
                 <Grid>
                     <Col size={10}>
+                        <TouchableOpacity style={[styles.mb3, styles.pl2]}
+                                          activeOpacity={0.6}
+                                          onPress={props.signOut}>
+                            <View style={[styles.flxRow]}>
+                                <Icon name="power-settings-new" size={25} color="white" />
+                                <Text style={[styles.silver, styles.ml1, {marginTop: 6}]}>Sign Out</Text>
+                            </View>
+                        </TouchableOpacity>
                         <SearchBar
                             round
                             lightTheme
@@ -57,4 +65,6 @@ export class ChatHeader extends Component {
 ChatHeader.propTypes = {
     channel: PropTypes.object,
     onMenuClick: PropTypes.func,
+    signOut: PropTypes.func,
+
 };

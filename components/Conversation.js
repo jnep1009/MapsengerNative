@@ -1,5 +1,4 @@
 import React, {Component, PropTypes} from 'react';
-
 import {connect} from 'react-redux';
 
 import {
@@ -25,6 +24,8 @@ import {
     history,
     subscribe,
     publishMessage,
+    participants,
+    settingState
 } from '../services/pubnub';
 
 import styles from '../styles';
@@ -37,6 +38,7 @@ class BareConversation extends Component {
             activePage: 'Conversation',
             subscription: null,
             viewPosition: new Animated.Value(0),
+            currentPosition: []
         };
     }
 
@@ -45,6 +47,7 @@ class BareConversation extends Component {
             channels,
             history,
             friends,
+            disconnect,
             selectedChannel,
             user,
             } = this.props;
@@ -67,6 +70,7 @@ class BareConversation extends Component {
             <View style={[styles.flx1, styles.flxCol, styles.selfStretch]}>
                 <Animated.View style={containerStyle}>
                     <ChatHeader
+                        signOut={disconnect}
                         channel={selectedChannel}
                         onMenuClick={this.onMenuClick.bind(this)}/>
                     {this.state.activePage === 'Conversation' ? (
@@ -84,7 +88,27 @@ class BareConversation extends Component {
         );
     }
 
+    componentWillMount(){
+        navigator.geolocation.getCurrentPosition(
+            (position) => {
+                const lat = position.coords.latitude;
+                const lng = position.coords.longitude;
+                const pic =
+                settingState(this.props.selectedChannel.name, lat,lng, user.avatarUrl);
+                this.setState({
+                    currentPosition: [lat,lng]
+                })
+            },
+            (error) => this.setState({ error: error.message }),
+            { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 }
+        );
+    }
+
     componentDidMount() {
+        participants(this.props.selectedChannel.name).then(response => {
+            console.log(response);
+        });
+
         this.subscribeToChannel();
         this.fetchHistory();
     }
