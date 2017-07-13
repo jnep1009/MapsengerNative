@@ -45,6 +45,7 @@ export class ChatInput extends Component {
       Who: props.user,
       What: value,
       When: new Date().valueOf(),
+      Type: 'message'
     };
 
     props.publishMessage(messageObj);

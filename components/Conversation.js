@@ -14,6 +14,7 @@ import {ChatInput} from './ChatInput';
 import {ChatHeader} from './ChatHeader';
 import {ShareMap} from './ShareMap';
 import {SearchPage} from './SearchPage';
+import {SearchList} from './SearchList';
 
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
@@ -42,6 +43,9 @@ class BareConversation extends Component {
             viewPosition: new Animated.Value(0),
             currentLoc: [],
             allPOI: '',
+            searchedPOI: ''
+            currentPOI: ''
+
         };
     }
 
@@ -55,13 +59,15 @@ class BareConversation extends Component {
         const lat = this.state.currentLoc[0];
         const lng = this.state.currentLoc[1];
         const googleMapApi = "https://maps.googleapis.com/maps/api/place/textsearch/json?key=AIzaSyAh11AWjqh_cDS1PG44o1JLXmGi_zoVjt8";
-        const query = googleMapApi + '&query=' + "Thai Restaurant" + '+Seattle+University+District&location=' + "47.656332" + "," + "-122.320028" + '&radius=3000';
+        const query = googleMapApi + '&query=' + infoSearch + '+&location=' + lat + "," + lng+ '&radius=3000';
         fetch(query)
             .then((response) => response.json())
             .then((responseData) => {
+                console.log(responseData);
                 this.setState({
-                    allPOI: responseData,
-                    //activePage: 'SearchList'
+                    currentPOI: responseData,
+                    searchedPOI: infoSearch,
+                    mainPage: 'SearchList'
                 });
             })
             .done();
@@ -119,6 +125,15 @@ class BareConversation extends Component {
                             onMenuClick={this.onMenuClick.bind(this)}
                         />
                     </Animated.View>
+                ) : this.state.mainPage === 'SearchList' ? (
+                    <SearchList
+                        user={user}
+                        searchText={this.state.searchedPOI}
+                        allPOI={history}
+                        currentPOI={this.state.currentPOI}
+                        currentLoc={this.state.currentLoc}
+                        publishMessage={message => this.onPublishMessage(message)}
+                    />
                 ) : null }
             </View>
         );

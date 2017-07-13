@@ -17,7 +17,7 @@ import styles from '../styles';
 export class SearchPage extends Component {
 
 
-    _onClickButton(menu){
+    _onClickButton(menu) {
         this.props.searchText(menu);
     }
 
@@ -57,16 +57,6 @@ export class SearchPage extends Component {
             >
                 <Row size={2}>
                     <Grid>
-                        <Col size={1}>
-                            <TouchableOpacity style={[styles.mb3, styles.pl2]}
-                                              activeOpacity={0.6}
-                                              onPress={props.signOut}>
-                                <View style={[styles.flxRow]}>
-                                    <Icon name="power-settings-new" size={25} color="white"/>
-                                    <Text style={[styles.silver, styles.ml1, {marginTop: 6}]}>Sign Out</Text>
-                                </View>
-                            </TouchableOpacity>
-                        </Col>
                         <Col size={10}>
                             <SearchBar
                                 round
