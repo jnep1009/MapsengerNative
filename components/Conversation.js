@@ -40,15 +40,31 @@ class BareConversation extends Component {
             activePage: 'Conversation',
             subscription: null,
             viewPosition: new Animated.Value(0),
-            currentPosition: [],
+            currentLoc: [],
             allPOI: '',
         };
     }
 
     _setNavigation(page) {
         this.setState({
-            activePage: page
+            mainPage: page
         })
+    }
+
+    getText(infoSearch) {
+        const lat = this.state.currentLoc[0];
+        const lng = this.state.currentLoc[1];
+        const googleMapApi = "https://maps.googleapis.com/maps/api/place/textsearch/json?key=AIzaSyAh11AWjqh_cDS1PG44o1JLXmGi_zoVjt8";
+        const query = googleMapApi + '&query=' + "Thai Restaurant" + '+Seattle+University+District&location=' + "47.656332" + "," + "-122.320028" + '&radius=3000';
+        fetch(query)
+            .then((response) => response.json())
+            .then((responseData) => {
+                this.setState({
+                    allPOI: responseData,
+                    //activePage: 'SearchList'
+                });
+            })
+            .done();
     }
 
 
@@ -96,9 +112,12 @@ class BareConversation extends Component {
                             user={user}
                             publishMessage={message => this.onPublishMessage(message)}/>
                     </Animated.View>
-                ) : this.state.activePage === 'SearchPage' ? (
+                ) : this.state.mainPage === 'SearchPage' ? (
                     <Animated.View style={containerStyle}>
-                        <SearchPage/>
+                        <SearchPage
+                            searchText={this.getText.bind(this)}
+                            onMenuClick={this.onMenuClick.bind(this)}
+                        />
                     </Animated.View>
                 ) : null }
             </View>
@@ -106,16 +125,6 @@ class BareConversation extends Component {
     }
 
     componentWillMount() {
-        const googleMapApi = "https://maps.googleapis.com/maps/api/place/textsearch/json?key=AIzaSyAh11AWjqh_cDS1PG44o1JLXmGi_zoVjt8";
-        const query = googleMapApi + '&query=' + "Thai Restaurant" + '+Seattle+University+District&location=' + "47.656332" + "," + "-122.320028" + '&radius=3000';
-        fetch(query)
-            .then((response) => response.json())
-            .then((responseData) => {
-                this.setState({
-                   allPOI: responseData
-                });
-            })
-            .done();
         navigator.geolocation.getCurrentPosition(
             (position) => {
                 const lat = position.coords.latitude;
@@ -123,7 +132,7 @@ class BareConversation extends Component {
                 const pic = this.props.user.avatarUrl;
                 settingState(this.props.selectedChannel.name, lat, lng, pic);
                 this.setState({
-                    currentPosition: [lat, lng]
+                    currentLoc: [lat, lng]
                 })
             },
             (error) => this.setState({error: error.message}),
@@ -197,11 +206,11 @@ class BareConversation extends Component {
             case 'ShareMap': // no break statement in 'case 0:' so this case will run as well 
                 newActive = 'Conversation';
                 break; // it encounters this break so will not continue into 'case 2:' 
-            case 'SEARCH_ENTER':
+            case 'SearchPage':
                 newActive = 'SEARCH_MAP';
                 break;
             case 'SEARCH_MAP':
-                newActive = 'SEARCH_ENTER';
+                newActive = 'Conversation';
                 break;
             default:
                 console.log('default');

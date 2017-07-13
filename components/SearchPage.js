@@ -16,21 +16,39 @@ import styles from '../styles';
 
 export class SearchPage extends Component {
 
-    _onFocus() {
-        this.props.focusModal();
+
+    _onClickButton(menu){
+        this.props.searchText(menu);
     }
+
 
     render() {
         const {props} = this;
         const users = [
             {
-                name: 'brynn',
-                avatar: 'https://s3.amazonaws.com/uifaces/faces/twitter/brynn/128.jpg'
+                name: 'Restaurant',
+                avatar: 'https://images.unsplash.com/photo-1486533803613-e0ce3d009238'
             },
             {
-                name: 'brynn',
-                avatar: 'https://s3.amazonaws.com/uifaces/faces/twitter/brynn/128.jpg'
-            }// more users here
+                name: 'Coffee',
+                avatar: 'https://images.unsplash.com/photo-1428550443830-190057dc8098'
+            },
+            {
+                name: 'Fast food',
+                avatar: 'https://images.unsplash.com/photo-1496930666207-e76e8253a950'
+            },
+            {
+                name: 'Bar',
+                avatar: 'https://images.unsplash.com/photo-1461823385004-d7660947a7c0'
+            },
+            {
+                name: 'Park',
+                avatar: 'https://images.unsplash.com/photo-1445824285584-336d1e77abbf'
+            },
+            {
+                name: 'Trail',
+                avatar: 'https://images.unsplash.com/photo-1492133969098-09ba49699f47'
+            }
         ];
 
         return (
@@ -66,6 +84,7 @@ export class SearchPage extends Component {
                                 users.map((u, i) => {
                                     return (
                                         <ListItem
+                                            onClick={() => this._onClickButton(u.name)}
                                             key={i}
                                             roundAvatar
                                             title={u.name}
@@ -83,8 +102,6 @@ export class SearchPage extends Component {
 }
 
 SearchPage.propTypes = {
-    //channel: PropTypes.object,
-    //onMenuClick: PropTypes.func,
-    //signOut: PropTypes.func,
-    //focusModal: PropTypes.func
+    searchText: PropTypes.func,
+    onMenuClick: PropTypes.func
 };
