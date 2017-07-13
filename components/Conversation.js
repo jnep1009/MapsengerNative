@@ -43,7 +43,7 @@ class BareConversation extends Component {
             viewPosition: new Animated.Value(0),
             currentLoc: [],
             allPOI: '',
-            searchedPOI: ''
+            searchedPOI: '',
             currentPOI: ''
 
         };
@@ -56,6 +56,7 @@ class BareConversation extends Component {
     }
 
     getText(infoSearch) {
+        console.log('Conversation', infoSearch);
         const lat = this.state.currentLoc[0];
         const lng = this.state.currentLoc[1];
         const googleMapApi = "https://maps.googleapis.com/maps/api/place/textsearch/json?key=AIzaSyAh11AWjqh_cDS1PG44o1JLXmGi_zoVjt8";
@@ -65,7 +66,7 @@ class BareConversation extends Component {
             .then((responseData) => {
                 console.log(responseData);
                 this.setState({
-                    currentPOI: responseData,
+                    currentPOI: responseData.results,
                     searchedPOI: infoSearch,
                     mainPage: 'SearchList'
                 });

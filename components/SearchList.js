@@ -5,14 +5,15 @@
  * Created by JNEP on 7/13/17.
  */
 import React, {Component, PropTypes} from 'react';
-
+import geolib from 'geolib';
 import {
     Image,
     ListView,
     Text,
     View,
     TouchableOpacity,
-    StyleSheet
+    StyleSheet,
+    ScrollView
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { SearchBar, Grid, Col, Row, Card, ListItem, List, Avatar, Button } from 'react-native-elements'
@@ -62,6 +63,7 @@ export class SearchList extends Component {
     }
 
     componentWillMount() {
+        console.log(' Prop Current POI', this.state.places);
         const userCurrentLoc = this.props.currentLoc;
         const allExistingID = [];
         let robj;
@@ -111,6 +113,7 @@ export class SearchList extends Component {
             }
             return robj;
         });
+        console.log('reformed Place', reformedPlaces);
         this.setState({
             places: reformedPlaces
         });
@@ -128,50 +131,60 @@ export class SearchList extends Component {
             <View
                 style={{paddingTop: 30}}
             >
-                <Row size={2}>
-                    <Grid>
+                <Grid>
+                    <Row size={1}>
                         <Col size={12}>
                             <SearchBar
                                 round
                                 lightTheme
                                 containerStyle={{backgroundColor: 'transparent', borderRadius: 0}}
-                                placeholder='Type Here...'/>
+                                placeholder={this.props.searchText}/>
                         </Col>
-                    </Grid>
-                </Row>
-                <Row size={10}>
-                    <Col size={12}>
-                        <List>
-                            <ListItem
-                                containerStyle={{
-                                    backgroundColor: 'transparent'
-                                }}
-                                titleStyle={{
-                                    fontSize: 23,
-                                    color: "black"
-                                }}
-                                subtitleStyle={{
-                                    fontSize: 22,
-                                    color: "black"
-                                }}
-                                roundAvatar
-                                title='Little Thai'
-                                subtitle={
-                                    <View style={stylesList.subtitleView}>
-                                        <Text>{`Hi~ \n this is a test message.`}</Text>
-                                    </View>
+                    </Row>
+                    <Row size={25}
+                    style={{marginTop: -25}}
+                    >
+                        <Col size={12}>
+                            <ScrollView>
+                                {
+                                    this.props.currentPOI.map((u, i) => {
+                                        return (
+                                            <List>
+                                                <ListItem
+                                                    containerStyle={{
+                                                backgroundColor: 'transparent'
+                                            }}
+                                                    titleStyle={{
+                                                fontSize: 23,
+                                                color: "black"
+                                            }}
+                                                    subtitleStyle={{
+                                                fontSize: 22,
+                                                color: "black"
+                                            }}
+                                                    roundAvatar
+                                                    title='Little Thai'
+                                                    subtitle={
+                                                <View style={stylesList.subtitleView}>
+                                                    <Text>{`Hi~ \n this is a test message.`}</Text>
+                                                </View>
+                                            }
+                                                    rightIcon={
+                                                <Button
+                                                    style={{
+                                                        marginTop: 10,
+                                                    }}
+                                                    title='Share' />
+                                            }
+                                                />
+                                            </List>
+                                        );
+                                    })
                                 }
-                                rightIcon={
-                                    <Button
-                                        style={{
-                                            marginTop: 10,
-                                        }}
-                                        title='Share' />
-                                }
-                            />
-                        </List>
-                    </Col>
-                </Row>
+                            </ScrollView>
+                        </Col>
+                    </Row>
+                </Grid>
             </View>
         );
     }
@@ -179,7 +192,7 @@ export class SearchList extends Component {
 
 SearchList.propTypes = {
     searchText: PropTypes.string,
-    allPOI: PropTypes.func,
+    allPOI: PropTypes.array,
     currentPOI: PropTypes.array,
     currentLoc: PropTypes.array,
     sendMessage: PropTypes.func,

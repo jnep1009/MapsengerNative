@@ -18,6 +18,7 @@ export class SearchPage extends Component {
 
 
     _onClickButton(menu) {
+        console.log('Search Page', menu);
         this.props.searchText(menu);
     }
 
@@ -74,7 +75,7 @@ export class SearchPage extends Component {
                                 users.map((u, i) => {
                                     return (
                                         <ListItem
-                                            onClick={() => this._onClickButton(u.name)}
+                                            onPress={() => this._onClickButton(u.name)}
                                             key={i}
                                             roundAvatar
                                             title={u.name}
