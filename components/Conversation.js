@@ -13,6 +13,7 @@ import {ChatHistory} from './ChatHistory';
 import {ChatInput} from './ChatInput';
 import {ChatHeader} from './ChatHeader';
 import {ShareMap} from './ShareMap';
+import {SearchPage} from './SearchPage';
 
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
@@ -35,12 +36,21 @@ class BareConversation extends Component {
         super();
 
         this.state = {
+            mainPage: 'InitialConver',
             activePage: 'Conversation',
             subscription: null,
             viewPosition: new Animated.Value(0),
-            currentPosition: []
+            currentPosition: [],
+            allPOI: '',
         };
     }
+
+    _setNavigation(page) {
+        this.setState({
+            activePage: page
+        })
+    }
+
 
     render() {
         const {
@@ -68,39 +78,56 @@ class BareConversation extends Component {
 
         return (
             <View style={[styles.flx1, styles.flxCol, styles.selfStretch]}>
-                <Animated.View style={containerStyle}>
-                    <ChatHeader
-                        signOut={disconnect}
-                        channel={selectedChannel}
-                        onMenuClick={this.onMenuClick.bind(this)}/>
-                    {this.state.activePage === 'Conversation' ? (
-                        <ChatHistory ref="chatHistory"
-                                     history={history}
-                                     fetchHistory={() => this.fetchHistory()}/>)
-                        : this.state.activePage === 'ShareMap' ? (
-                        <ShareMap/>
-                    ) : null }
-                    <ChatInput
-                        user={user}
-                        publishMessage={message => this.onPublishMessage(message)}/>
-                </Animated.View>
+                {this.state.mainPage === 'InitialConver' ? (
+                    <Animated.View style={containerStyle}>
+                        <ChatHeader
+                            signOut={disconnect}
+                            channel={selectedChannel}
+                            focusModal={this._setNavigation.bind(this)}
+                            onMenuClick={this.onMenuClick.bind(this)}/>
+                        {this.state.activePage === 'Conversation' ? (
+                            <ChatHistory ref="chatHistory"
+                                         history={history}
+                                         fetchHistory={() => this.fetchHistory()}/>)
+                            : this.state.activePage === 'ShareMap' ? (
+                            <ShareMap/>
+                        ) : null }
+                        <ChatInput
+                            user={user}
+                            publishMessage={message => this.onPublishMessage(message)}/>
+                    </Animated.View>
+                ) : this.state.activePage === 'SearchPage' ? (
+                    <Animated.View style={containerStyle}>
+                        <SearchPage/>
+                    </Animated.View>
+                ) : null }
             </View>
         );
     }
 
-    componentWillMount(){
+    componentWillMount() {
+        const googleMapApi = "https://maps.googleapis.com/maps/api/place/textsearch/json?key=AIzaSyAh11AWjqh_cDS1PG44o1JLXmGi_zoVjt8";
+        const query = googleMapApi + '&query=' + "Thai Restaurant" + '+Seattle+University+District&location=' + "47.656332" + "," + "-122.320028" + '&radius=3000';
+        fetch(query)
+            .then((response) => response.json())
+            .then((responseData) => {
+                this.setState({
+                   allPOI: responseData
+                });
+            })
+            .done();
         navigator.geolocation.getCurrentPosition(
             (position) => {
                 const lat = position.coords.latitude;
                 const lng = position.coords.longitude;
-                const pic =
-                settingState(this.props.selectedChannel.name, lat,lng, user.avatarUrl);
+                const pic = this.props.user.avatarUrl;
+                settingState(this.props.selectedChannel.name, lat, lng, pic);
                 this.setState({
-                    currentPosition: [lat,lng]
+                    currentPosition: [lat, lng]
                 })
             },
-            (error) => this.setState({ error: error.message }),
-            { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 }
+            (error) => this.setState({error: error.message}),
+            {enableHighAccuracy: true, timeout: 20000, maximumAge: 1000}
         );
     }
 

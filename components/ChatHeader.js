@@ -14,6 +14,11 @@ import { SearchBar, Grid, Col } from 'react-native-elements'
 import styles from '../styles';
 
 export class ChatHeader extends Component {
+
+    _onFocus() {
+        this.props.focusModal('SearchPage');
+    }
+
     render() {
         const {props} = this;
 
@@ -45,6 +50,7 @@ export class ChatHeader extends Component {
                             round
                             lightTheme
                             containerStyle={{backgroundColor: 'transparent', borderRadius: 0}}
+                            onFocus={ this._onFocus.bind(this) }
                             placeholder='Type Here...'/>
                     </Col>
                     <Col size={2}>
@@ -66,5 +72,5 @@ ChatHeader.propTypes = {
     channel: PropTypes.object,
     onMenuClick: PropTypes.func,
     signOut: PropTypes.func,
-
+    focusModal: PropTypes.func
 };
