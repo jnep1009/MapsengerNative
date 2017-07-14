@@ -15,6 +15,7 @@ import {ChatHeader} from './ChatHeader';
 import {ShareMap} from './ShareMap';
 import {SearchPage} from './SearchPage';
 import {SearchList} from './SearchList';
+import {SearchMap} from './SearchMap';
 
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
@@ -44,7 +45,8 @@ class BareConversation extends Component {
             currentLoc: [],
             allPOI: '',
             searchedPOI: '',
-            currentPOI: ''
+            currentPOI: '',
+            goToMarker: ''
 
         };
     }
@@ -115,6 +117,7 @@ class BareConversation extends Component {
                             : this.state.activePage === 'ShareMap' ? (
                             <ShareMap
                                 user={user}
+                                allPOI={this.props.history}
                                 currentLoc={this.state.currentLoc}
                             />
                         ) : null }
@@ -139,6 +142,17 @@ class BareConversation extends Component {
                         currentLoc={this.state.currentLoc}
                         backButton={this._setNavigation.bind(this)}
                         focusModal={this._setNavigation.bind(this)}
+                        publishMessage={message => this.onPublishMessage(message)}
+                    />
+                ) : this.state.mainPage === 'SearchMap' ? (
+                    <SearchMap
+                        user={user}
+                        allPOI={this.props.history}
+                        currentLoc={this.state.currentLoc}
+                        currentPOI={this.state.currentPOI}
+                        searchText={this.state.searchedPOI}
+                        focusModal={this._setNavigation.bind(this)}
+                        backButton={this._setNavigation.bind(this)}
                         publishMessage={message => this.onPublishMessage(message)}
                     />
                 ) : null }

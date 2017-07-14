@@ -164,13 +164,22 @@ export class SearchList extends Component {
                                     size={25} color="fa fa-angle-left"/>
                             </TouchableOpacity>
                         </Col>
-                        <Col size={11}>
+                        <Col size={10}>
                             <SearchBar
                                 round
                                 lightTheme
                                 onFocus={ this._onFocus.bind(this) }
                                 containerStyle={{backgroundColor: 'transparent', borderRadius: 0}}
                                 placeholder={this.props.searchText}/>
+                        </Col>
+                        <Col size={1}>
+                            <TouchableOpacity style={[styles.jcEnd, styles.selfCenter]}
+                                              onPress={this._onBackbutton.bind(this, "SearchMap")}>
+                                <Icon
+                                    style={{top:8}}
+                                    name='map-o'
+                                    size={25} color="fa fa-angle-left"/>
+                            </TouchableOpacity>
                         </Col>
                     </Row>
                     <Row size={25}
