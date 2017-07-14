@@ -56,7 +56,7 @@ class BareConversation extends Component {
     }
 
     getText(infoSearch) {
-        console.log('Conversation', infoSearch);
+        console.log(this.state.currentLoc);
         const lat = this.state.currentLoc[0];
         const lng = this.state.currentLoc[1];
         const googleMapApi = "https://maps.googleapis.com/maps/api/place/textsearch/json?key=AIzaSyAh11AWjqh_cDS1PG44o1JLXmGi_zoVjt8";
@@ -113,7 +113,10 @@ class BareConversation extends Component {
                                          history={history}
                                          fetchHistory={() => this.fetchHistory()}/>)
                             : this.state.activePage === 'ShareMap' ? (
-                            <ShareMap/>
+                            <ShareMap
+                                user={user}
+                                currentLoc={this.state.currentLoc}
+                            />
                         ) : null }
                         <ChatInput
                             user={user}
@@ -123,6 +126,7 @@ class BareConversation extends Component {
                     <Animated.View style={containerStyle}>
                         <SearchPage
                             searchText={this.getText.bind(this)}
+                            backButton={this._setNavigation.bind(this)}
                             onMenuClick={this.onMenuClick.bind(this)}
                         />
                     </Animated.View>
@@ -133,6 +137,8 @@ class BareConversation extends Component {
                         allPOI={history}
                         currentPOI={this.state.currentPOI}
                         currentLoc={this.state.currentLoc}
+                        backButton={this._setNavigation.bind(this)}
+                        focusModal={this._setNavigation.bind(this)}
                         publishMessage={message => this.onPublishMessage(message)}
                     />
                 ) : null }

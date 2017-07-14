@@ -37,12 +37,19 @@ const stylesList = StyleSheet.create({
 
 export class SearchList extends Component {
 
-    _shareMarker(marker) {
-        const markerId = '#' + marker.id;
-        const markerIdButton = '#' + marker.id + "button";
-        $(markerIdButton).hide();
-        $(markerId).removeClass('item-share');
-        $(markerId).addClass('item-shared');
+    _onFocus() {
+        this.props.focusModal('SearchPage');
+    }
+
+    _onBackbutton(page){
+        this.props.backButton(page);
+    }
+
+    _shareMarker(marker, placeIndex) {
+        let chosenMarker = marker;
+        chosenMarker['existing'] = 'item-shared';
+        let existingPlaces = this.state.places;
+        existingPlaces[placeIndex] = chosenMarker;
         const messageObj = {
             Who: this.props.user,
             // What: message,
@@ -50,7 +57,10 @@ export class SearchList extends Component {
             Where: marker,
             Type: 'marker',
         };
-        this.props.sendMessage(messageObj);
+        this.setState({
+            places: existingPlaces
+        });
+        this.props.publishMessage(messageObj);
     }
 
     constructor(props) {
@@ -63,7 +73,6 @@ export class SearchList extends Component {
     }
 
     componentWillMount() {
-        console.log(' Prop Current POI', this.state.places);
         const userCurrentLoc = this.props.currentLoc;
         const allExistingID = [];
         let robj;
@@ -82,13 +91,18 @@ export class SearchList extends Component {
                 {latitude: userCurrentLoc[0], longitude: userCurrentLoc[1]}
             );
             const distanceInMiles = totalDistance / 6000;
+            const addressArr = obj.formatted_address.split(",");
+            const woCty = addressArr.slice(0, -2).join(',');
+            const country = addressArr.splice(2).join(',');
+            console.log(woCty, country);
             if (allExistingID.includes(obj.id)) {
                 robj = {
                     id: obj.id,
                     name: obj.name,
                     pic: obj.icon,
                     rating: obj.rating,
-                    address: obj.formatted_address,
+                    address: woCty,
+                    country: country,
                     background: '#ffffff',
                     imgBorderColor: 'black',
                     distance: String(distanceInMiles.toFixed(2)) + ' Miles',
@@ -102,7 +116,8 @@ export class SearchList extends Component {
                     name: obj.name,
                     pic: obj.icon,
                     rating: obj.rating,
-                    address: obj.formatted_address,
+                    address: woCty,
+                    country: country,
                     background: '#ffffff',
                     imgBorderColor: 'black',
                     distance: String(distanceInMiles.toFixed(2)) + ' Miles',
@@ -113,10 +128,17 @@ export class SearchList extends Component {
             }
             return robj;
         });
-        console.log('reformed Place', reformedPlaces);
         this.setState({
             places: reformedPlaces
         });
+    }
+
+    shouldComponentUpdate(nextProps, nextState) {
+        console.log(this.state.places, nextState.places);
+        if (this.state.places === nextState.places) {
+            return true;
+        }
+        return false;
     }
 
 
@@ -133,50 +155,111 @@ export class SearchList extends Component {
             >
                 <Grid>
                     <Row size={1}>
-                        <Col size={12}>
+                        <Col size={1}>
+                            <TouchableOpacity style={[styles.jcEnd, styles.selfCenter]}
+                                              onPress={this._onBackbutton.bind(this, "InitialConver")}>
+                                <Icon
+                                    style={{top:8}}
+                                    name='map-o'
+                                    size={25} color="fa fa-angle-left"/>
+                            </TouchableOpacity>
+                        </Col>
+                        <Col size={11}>
                             <SearchBar
                                 round
                                 lightTheme
+                                onFocus={ this._onFocus.bind(this) }
                                 containerStyle={{backgroundColor: 'transparent', borderRadius: 0}}
                                 placeholder={this.props.searchText}/>
                         </Col>
                     </Row>
                     <Row size={25}
-                    style={{marginTop: -25}}
+                         style={{marginTop: -25}}
                     >
                         <Col size={12}>
                             <ScrollView>
                                 {
-                                    this.props.currentPOI.map((u, i) => {
+                                    this.state.places.map((place, i) => {
                                         return (
                                             <List>
-                                                <ListItem
-                                                    containerStyle={{
+
+                                                { place.existing === "item-share" ? (
+
+                                                    <ListItem
+                                                        key={i}
+                                                        containerStyle={{
                                                 backgroundColor: 'transparent'
                                             }}
-                                                    titleStyle={{
+                                                        titleStyle={{
                                                 fontSize: 23,
                                                 color: "black"
                                             }}
-                                                    subtitleStyle={{
+                                                        subtitleStyle={{
                                                 fontSize: 22,
                                                 color: "black"
                                             }}
-                                                    roundAvatar
-                                                    title='Little Thai'
-                                                    subtitle={
+                                                        roundAvatar
+                                                        title={place.name}
+                                                        subtitle={
                                                 <View style={stylesList.subtitleView}>
-                                                    <Text>{`Hi~ \n this is a test message.`}</Text>
+                                                    <Text>
+                                                    {place.distance + `away`}
+                                                    {`\n`}
+                                                    {place.address}
+                                                     {`\n`}
+                                                     {place.country}
+                                                     {`\n`}
+                                                     {`Rating :` + place.rating}
+                                                    </Text>
                                                 </View>
                                             }
-                                                    rightIcon={
+
+                                                        rightIcon={
                                                 <Button
-                                                    style={{
-                                                        marginTop: 10,
-                                                    }}
-                                                    title='Share' />
+                                                        style={{
+                                                            marginTop: 12,
+                                                        }}
+                                                        onPress={this._shareMarker.bind(this, place, i)}
+                                                        title='Share' />
+                                                    }
+                                                    />
+
+                                                ) : place.existing === "item-shared" ? (
+
+                                                    <ListItem
+                                                        key={i}
+                                                        containerStyle={{
+                                                backgroundColor: 'transparent'
+                                            }}
+                                                        titleStyle={{
+                                                fontSize: 23,
+                                                color: "black"
+                                            }}
+                                                        subtitleStyle={{
+                                                fontSize: 22,
+                                                color: "black"
+                                            }}
+                                                        roundAvatar
+                                                        title={place.name}
+                                                        subtitle={
+                                                <View style={stylesList.subtitleView}>
+                                                    <Text>
+                                                    {place.distance + `away`}
+                                                    {`\n`}
+                                                     {place.address}
+                                                     {`\n`}
+                                                     {place.country}
+                                                     {`\n`}
+                                                     {`Rating :` + place.rating}
+                                                    </Text>
+                                                </View>
                                             }
-                                                />
+                                                        rightIcon={
+                                                         <Image
+                                                        style={{width: 50, height: 50, marginTop: 15, marginRight: 5}}
+                                                        source={{uri: "https://i.imgur.com/76rcbCP.png"}}/>}
+                                                        />
+                                                ) : null }
                                             </List>
                                         );
                                     })
@@ -195,6 +278,9 @@ SearchList.propTypes = {
     allPOI: PropTypes.array,
     currentPOI: PropTypes.array,
     currentLoc: PropTypes.array,
-    sendMessage: PropTypes.func,
+    publishMessage: PropTypes.func,
     user: PropTypes.object,
+    focusModal: PropTypes.func,
+    backButton:  PropTypes.func
+
 };

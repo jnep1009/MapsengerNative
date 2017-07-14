@@ -16,10 +16,27 @@ import styles from '../styles';
 
 export class SearchPage extends Component {
 
+    constructor(props) {
+        super(props);
+        this.state = {
+            search: ''
+        };
+    }
 
     _onClickButton(menu) {
         console.log('Search Page', menu);
         this.props.searchText(menu);
+    }
+
+    _onSubmit(e) {
+        if(e.nativeEvent.key == "Enter") {
+            const message = this.state.search;
+            this.props.searchText(message);
+        }
+    }
+
+    _onBackbutton(page){
+        this.props.backButton(page);
     }
 
 
@@ -58,14 +75,26 @@ export class SearchPage extends Component {
             >
                 <Row size={2}>
                     <Grid>
+                        <Col size={1}>
+                            <TouchableOpacity style={[styles.jcEnd, styles.selfCenter]}
+                                              onPress={this._onBackbutton.bind(this, "InitialConver")}>
+                                <Icon
+                                    style={{top:8}}
+                                    name='map-o'
+                                    size={25} color="fa fa-angle-left"/>
+                            </TouchableOpacity>
+                        </Col>
                         <Col size={10}>
                             <SearchBar
+                                autoFocus={true}
                                 round
                                 lightTheme
+                                ref='SearchInput'
+                                onChangeText={(value) => this.setState({search: value})}
+                                onKeyPress={this._onSubmit.bind(this)}
                                 containerStyle={{backgroundColor: 'transparent', borderRadius: 0}}
-                                placeholder='Type Here...'/>
+                                placeholder='Search for places here'/>
                         </Col>
-                        <Col size={1}/>
                     </Grid>
                 </Row>
                 <Row size={10}>
@@ -94,5 +123,7 @@ export class SearchPage extends Component {
 
 SearchPage.propTypes = {
     searchText: PropTypes.func,
-    onMenuClick: PropTypes.func
+    onMenuClick: PropTypes.func,
+    backButton:  PropTypes.func
+
 };

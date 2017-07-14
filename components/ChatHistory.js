@@ -10,6 +10,7 @@ import {
 } from 'react-native';
 
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import {Button } from 'react-native-elements'
 
 import {User} from './User';
 
@@ -19,7 +20,7 @@ import styles from '../styles';
 
 const renderMessage = (index, data) => {
   const msgDate = new Date(data.When);
-
+  const messageType = data.Type;
   const msgDateTime = msgDate.toLocaleDateString() + ' at ' + msgDate.toLocaleTimeString();
 
   return (
@@ -33,9 +34,25 @@ const renderMessage = (index, data) => {
         </View>
         <View style={[styles.flxRow]}>
         </View>
-        <View style={[styles.mt1]}>
-          <Text>{data.What}</Text>
-        </View>
+        {messageType === 'marker' ? (
+            <View style={[styles.mt1]}>
+              <Text>Check this one
+                {`\n`}
+              </Text>
+              <Button
+                  onPress={{
+
+                  }}
+                  style={{
+
+                  }}
+                  title={data.Where.name} />
+            </View>
+        ): messageType === 'message' ? (
+            <View style={[styles.mt1]}>
+              <Text>{data.What}</Text>
+            </View>
+        ): null}
       </View>
     </View>
   );
