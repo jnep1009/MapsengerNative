@@ -22,40 +22,6 @@ const renderMessage = (index, data) => {
   const msgDate = new Date(data.When);
   const messageType = data.Type;
   const msgDateTime = msgDate.toLocaleDateString() + ' at ' + msgDate.toLocaleTimeString();
-
-  return (
-    <View style={[styles.flx1, styles.flxRow, styles.p1, styles.borderBHl, {borderColor: '#aaa'}]} key={index}>
-      <View style={[styles.mt1]}>
-        <User uri={data.Who.avatarUrl} size={32} />
-      </View>
-      <View style={[styles.flxCol, styles.ml2]}>
-        <View>
-          <Text>{data.Who.login}</Text>
-        </View>
-        <View style={[styles.flxRow]}>
-        </View>
-        {messageType === 'marker' ? (
-            <View style={[styles.mt1]}>
-              <Text>Check this one
-                {`\n`}
-              </Text>
-              <Button
-                  onPress={{
-
-                  }}
-                  style={{
-
-                  }}
-                  title={data.Where.name} />
-            </View>
-        ): messageType === 'message' ? (
-            <View style={[styles.mt1]}>
-              <Text>{data.What}</Text>
-            </View>
-        ): null}
-      </View>
-    </View>
-  );
 };
 
 export class ChatHistory extends Component {
@@ -99,6 +65,10 @@ export class ChatHistory extends Component {
     this.scrollHeight = e.nativeEvent.layout.height;
   }
 
+  _onClickButton(location) {
+    this.props.getMarker(location);
+  }
+
   render() {
     const {history} = this.props;
 
@@ -113,7 +83,41 @@ export class ChatHistory extends Component {
                     onScroll={this.onScroll.bind(this)}>
           {messages.length === 0 ?
               (<Text style={[styles.italic, styles.p2, styles.center]}>No messages</Text>) :
-              messages.map((h, index) => renderMessage(index, h))}
+              messages.map((h, index) =>
+              {
+                  return (
+                      <View style={[styles.flx1, styles.flxRow, styles.p1, styles.borderBHl, {borderColor: '#aaa'}]} key={index}>
+                          <View style={[styles.mt1]}>
+                              <User uri={h.Who.avatarUrl} size={32} />
+                          </View>
+                          <View style={[styles.flxCol, styles.ml2]}>
+                              <View>
+                                  <Text>{h.Who.login}</Text>
+                              </View>
+                              <View style={[styles.flxRow]}>
+                              </View>
+                              {h.Type === 'marker' ? (
+                                  <View style={[styles.mt1]}>
+                                      <Text>Check this one
+                                          {`\n`}
+                                      </Text>
+                                      <Button
+                                          onPress={() => this._onClickButton(h.Where)}
+                                          style={{
+
+                                             }}
+                                          title={h.Where.name} />
+                                  </View>
+                              ): h.Type === 'message' ? (
+                                  <View style={[styles.mt1]}>
+                                      <Text>{h.What}</Text>
+                                  </View>
+                              ): null}
+                          </View>
+                      </View>
+                  );
+
+              })}
         </ScrollView>
       </View>
     );
@@ -123,4 +127,5 @@ export class ChatHistory extends Component {
 ChatHistory.propTypes = {
   history: React.PropTypes.array,
   fetchHistory: React.PropTypes.func,
+  getMarker: React.PropTypes.func,
 };

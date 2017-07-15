@@ -176,9 +176,16 @@ export class SearchMap extends Component {
                                         latitude: marker.lat,
                                         longitude: marker.lng
                                     }}>
+                                                {marker.existing === 'item-share' ? (
                                                 <Image
-                                                    style={{width: 40, height: 40}}
-                                                    source={{uri:"https://i.imgur.com/76rcbCP.png"}}/>
+                                                    style={{width: 18, height: 26}}
+                                                    source={{uri:"https://i.imgur.com/IyqkVRW.png"}}/>
+
+                                                ): marker.existing === 'item-shared' ? (
+                                                    <Image
+                                                        style={{width: 18, height: 26}}
+                                                        source={{uri:"https://i.imgur.com/s3gWqrp.png"}}/>
+                                                ) : null}
                                                 <MapView.Callout
                                                     style={{
                                             width: 150
@@ -194,6 +201,12 @@ export class SearchMap extends Component {
                                                             {"Rating" + marker.rating}
                                                             {`\n`}
                                                         </Text>
+                                                        <Button
+                                                            style={{
+                                                            marginTop: 12,
+                                                        }}
+                                                            onPress={this._shareMarker.bind(this, marker, i)}
+                                                            title='Share'/>
                                                     </View>
                                                 </MapView.Callout>
                                             </MapView.Marker>

@@ -265,8 +265,8 @@ export class SearchList extends Component {
                                             }
                                                         rightIcon={
                                                          <Image
-                                                        style={{width: 50, height: 50, marginTop: 15, marginRight: 5}}
-                                                        source={{uri: "https://i.imgur.com/76rcbCP.png"}}/>}
+                                                        style={{width: 18, height: 26, marginTop: 15, marginRight: 10}}
+                                                        source={{uri: "https://i.imgur.com/s3gWqrp.png"}}/>}
                                                         />
                                                 ) : null }
                                             </List>

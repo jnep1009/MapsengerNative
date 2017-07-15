@@ -8,6 +8,17 @@ const { width, height } = Dimensions.get('window');
 export class ShareMap extends Component {
 
     componentWillMount() {
+        console.log(this.props.fromWhere, this.props.currentLoc, this.props.placeMarkerLoc);
+        if (this.props.fromWhere === 'marker') {
+            console.log('yes marker');
+            this.setState({
+                currentShowLoc: this.props.placeMarkerLoc
+            });
+        } else {
+            this.setState({
+                currentShowLoc: this.props.currentLoc
+            });
+        }
         const markerHistory = this.props.allPOI;
         const getMarker = markerHistory.filter(function (el) {
             return el.Type === 'marker';
@@ -26,9 +37,8 @@ export class ShareMap extends Component {
                 distance: obj.Where.distance,
             };
         });
-
         this.setState({
-            POI: reformedPlaces
+            POI: reformedPlaces,
         });
     }
 
@@ -39,7 +49,8 @@ export class ShareMap extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            POI: ''
+            POI: '',
+            currentShowLoc: [0, 1]
         };
     }
 
@@ -49,11 +60,52 @@ export class ShareMap extends Component {
                 <MapView
                     style={{ left:0, right: 0, top:0, bottom: 0, position: 'absolute' }}
                     initialRegion={{
-            latitude: this.props.currentLoc[0],
-            longitude: this.props.currentLoc[1],
+            latitude: this.state.currentShowLoc[0],
+            longitude: this.state.currentShowLoc[1],
             latitudeDelta: 0.0922,
             longitudeDelta: 0.0421,
           }}>
+                    {
+                        this.state.POI.map((marker, i) => {
+                            return (
+                                <MapView.Marker
+                                    ref={ref => { i = ref; }}
+                                    onPress={() => this.show(i)}
+                                    coordinate={{
+                                        latitude: marker.lat,
+                                        longitude: marker.lng
+                                    }}>
+                                    <Image
+                                        style={{width: 18, height: 26}}
+                                        source={{uri:"https://i.imgur.com/s3gWqrp.png"}}/>
+                                    <MapView.Callout
+                                        style={{
+                                            width: 150
+                                           }}
+                                    >
+                                        <View
+                                        >
+                                            <Text
+                                            style={{
+                                                fontSize: 15
+                                            }}>
+                                                {marker.name}
+                                                {`\n`}
+                                            </Text>
+                                            <Text>
+                                                {"Address" + marker.address}
+                                                {`\n`}
+                                            </Text>
+                                            <Text>
+                                                {"Rating" + marker.rating}
+                                                {`\n`}
+                                            </Text>
+                                        </View>
+                                    </MapView.Callout>
+                                </MapView.Marker>
+                            )
+                        })
+                    }
                     <MapView.Marker
                         ref={ref => { this.marker1 = ref; }}
                         onPress={() => this.show(this.marker1)}
@@ -74,40 +126,6 @@ export class ShareMap extends Component {
                             </View>
                         </MapView.Callout>
                     </MapView.Marker>
-                    {
-                        this.state.POI.map((marker, i) => {
-                            return (
-                                <MapView.Marker
-                                    ref={ref => { i = ref; }}
-                                    onPress={() => this.show(i)}
-                                    coordinate={{
-                                        latitude: marker.lat,
-                                        longitude: marker.lng
-                                    }}>
-                                    <Image
-                                        style={{width: 40, height: 40}}
-                                        source={{uri:"https://i.imgur.com/76rcbCP.png"}}/>
-                                    <MapView.Callout
-                                        style={{
-                                            width: 150
-                                           }}
-                                    >
-                                        <View
-                                        >
-                                            <Text>
-                                                {"Name" + marker.name}
-                                                {`\n`}
-                                                {"Name" + marker.address}
-                                                {`\n`}
-                                                {"Rating" + marker.rating}
-                                                {`\n`}
-                                            </Text>
-                                        </View>
-                                    </MapView.Callout>
-                                </MapView.Marker>
-                            )
-                        })
-                    }
                 </MapView>
             </View>
         );
@@ -125,6 +143,8 @@ ShareMap.propTypes = {
     currentLoc: PropTypes.array,
     currentPOI: PropTypes.array,
     user: PropTypes.object,
-    allPOI: PropTypes.array
+    allPOI: PropTypes.array,
+    fromWhere: React.PropTypes.string,
+    placeMarkerLoc: React.PropTypes.array
 
 }; 

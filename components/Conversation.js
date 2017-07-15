@@ -46,15 +46,27 @@ class BareConversation extends Component {
             allPOI: '',
             searchedPOI: '',
             currentPOI: '',
-            goToMarker: ''
+            fromWhereToMap: '',
+            mapCenter: '',
+            allFriends: '',
 
         };
     }
 
     _setNavigation(page) {
         this.setState({
+            fromWhereToMap: 'chat',
             mainPage: page
         })
+    }
+
+    getMarker(marker) {
+        console.log('get marker', marker);
+        this.setState({
+            mapCenter: [marker.lat, marker.lng],
+            fromWhereToMap: 'marker',
+            activePage: 'ShareMap'
+        });
     }
 
     getText(infoSearch) {
@@ -112,13 +124,16 @@ class BareConversation extends Component {
                             onMenuClick={this.onMenuClick.bind(this)}/>
                         {this.state.activePage === 'Conversation' ? (
                             <ChatHistory ref="chatHistory"
+                                         getMarker={this.getMarker.bind(this)}
                                          history={history}
                                          fetchHistory={() => this.fetchHistory()}/>)
                             : this.state.activePage === 'ShareMap' ? (
                             <ShareMap
+                                fromWhere={this.state.fromWhereToMap}
+                                currentLoc={this.state.currentLoc}
                                 user={user}
                                 allPOI={this.props.history}
-                                currentLoc={this.state.currentLoc}
+                                placeMarkerLoc={this.state.mapCenter}
                             />
                         ) : null }
                         <ChatInput
@@ -177,8 +192,12 @@ class BareConversation extends Component {
     }
 
     componentDidMount() {
+        console.log(this.props.user);
         participants(this.props.selectedChannel.name).then(response => {
             console.log(response);
+            this.setState({
+                allFriends: response
+            })
         });
 
         this.subscribeToChannel();
