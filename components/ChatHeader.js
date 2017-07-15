@@ -41,6 +41,7 @@ export class ChatHeader extends Component {
                         <SearchBar
                             round
                             lightTheme
+                            underlineColorAndroid="transparent"
                             containerStyle={{backgroundColor: '#5a43c8', borderColor: '#5a43c8'}}
                             onFocus={ this._onFocus.bind(this) }
                             placeholder='Type Here...'/>
@@ -50,12 +51,10 @@ export class ChatHeader extends Component {
                                           onPress={props.onMenuClick}>
                             {this.props.currentPage === 'Conversation' ? (
                                 <Icon
-                                    style={{top:8}}
                                     name='ios-map-outline'
                                     size={40} color="white"/>
                             ) : this.props.currentPage === 'ShareMap' ? (
                                 <Icon
-                                    style={{top:8}}
                                     name='ios-chatbubbles'
                                     size={40} color="white"/>
                             ) : null}

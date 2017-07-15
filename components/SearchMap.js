@@ -125,7 +125,7 @@ export class SearchMap extends Component {
             <View style={{
             position: 'relative',
             height: height,
-            marginTop: 15
+            marginTop: 30
             }}>
                 <Grid>
                     <Row size={2}>
@@ -133,12 +133,16 @@ export class SearchMap extends Component {
                             <TouchableOpacity style={[styles.jcEnd, styles.selfCenter]}
                                               onPress={this._onBackbutton.bind(this, "InitialConver")}>
                                 <Icon
-                                    style={{top:8}}
+                                    style={{
+                                        marginLeft: 5,
+                                        top: 2
+
+                                    }}
                                     name='md-arrow-round-back'
-                                    size={25} color="black"/>
+                                    size={40} color="black"/>
                             </TouchableOpacity>
                         </Col>
-                        <Col size={8}>
+                        <Col size={7}>
                             <SearchBar
                                 round
                                 lightTheme

@@ -159,15 +159,18 @@ export class SearchList extends Component {
                             <TouchableOpacity style={[styles.jcEnd, styles.selfCenter]}
                                               onPress={this._onBackbutton.bind(this, "InitialConver")}>
                                 <Icon
-                                    style={{top:8}}
+                                    style={{
+                                        top: 2
+                                    }}
                                     name='md-arrow-round-back'
-                                    size={25} color="black"/>
+                                    size={40} color="black"/>
                             </TouchableOpacity>
                         </Col>
-                        <Col size={8}>
+                        <Col size={7}>
                             <SearchBar
                                 round
                                 lightTheme
+                                underlineColorAndroid="transparent"
                                 onFocus={ this._onFocus.bind(this) }
                                 containerStyle={{backgroundColor: 'transparent', borderRadius: 0}}
                                 placeholder={this.props.searchText}/>
@@ -176,14 +179,13 @@ export class SearchList extends Component {
                             <TouchableOpacity style={[styles.jcEnd, styles.selfCenter]}
                                               onPress={this._onBackbutton.bind(this, "SearchMap")}>
                                 <Icon
-                                    style={{top:8}}
                                     name='ios-map-outline'
-                                    size={35} color="black"/>
+                                    size={40} color="black"/>
                             </TouchableOpacity>
                         </Col>
                     </Row>
                     <Row size={25}
-                         style={{marginTop: -25}}
+                         style={{marginTop: -23}}
                     >
                         <Col size={12}>
                             <ScrollView>
@@ -197,8 +199,8 @@ export class SearchList extends Component {
                                                     <ListItem
                                                         key={i}
                                                         containerStyle={{
-                                                backgroundColor: 'white'
-                                            }}
+                                                            backgroundColor: 'white'
+                                                         }}
                                                         titleStyle={{
                                                 fontSize: 23,
                                                 color: "black"
@@ -238,8 +240,8 @@ export class SearchList extends Component {
                                                     <ListItem
                                                         key={i}
                                                         containerStyle={{
-                                                backgroundColor: 'transparent'
-                                            }}
+                                                            backgroundColor: 'white'
+                                                         }}
                                                         titleStyle={{
                                                 fontSize: 23,
                                                 color: "black"
