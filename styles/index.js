@@ -12,7 +12,8 @@ const stylesheet = StyleSheet.create({
 
   // colors
   base: { color: '#009688' },
-  bgBase: { backgroundColor: '#009688' },
+  bgBackBase: { backgroundColor: 'white' },
+  bgBase: { backgroundColor: '#5a43c8' },
   royalBlue: { color: 'royalblue' },
 
   // other

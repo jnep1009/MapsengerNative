@@ -15,7 +15,7 @@ import {
     StyleSheet,
     ScrollView
 } from 'react-native';
-import Icon from 'react-native-vector-icons/FontAwesome';
+import Icon from 'react-native-vector-icons/Ionicons';
 import { SearchBar, Grid, Col, Row, Card, ListItem, List, Avatar, Button } from 'react-native-elements'
 import styles from '../styles';
 
@@ -160,11 +160,11 @@ export class SearchList extends Component {
                                               onPress={this._onBackbutton.bind(this, "InitialConver")}>
                                 <Icon
                                     style={{top:8}}
-                                    name='map-o'
-                                    size={25} color="fa fa-angle-left"/>
+                                    name='md-arrow-round-back'
+                                    size={25} color="black"/>
                             </TouchableOpacity>
                         </Col>
-                        <Col size={10}>
+                        <Col size={8}>
                             <SearchBar
                                 round
                                 lightTheme
@@ -177,8 +177,8 @@ export class SearchList extends Component {
                                               onPress={this._onBackbutton.bind(this, "SearchMap")}>
                                 <Icon
                                     style={{top:8}}
-                                    name='map-o'
-                                    size={25} color="fa fa-angle-left"/>
+                                    name='ios-map-outline'
+                                    size={35} color="black"/>
                             </TouchableOpacity>
                         </Col>
                     </Row>
@@ -197,7 +197,7 @@ export class SearchList extends Component {
                                                     <ListItem
                                                         key={i}
                                                         containerStyle={{
-                                                backgroundColor: 'transparent'
+                                                backgroundColor: 'white'
                                             }}
                                                         titleStyle={{
                                                 fontSize: 23,

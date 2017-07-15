@@ -4,7 +4,7 @@ import { View, AppRegistry, Dimensions, Image, Text, StyleSheet, TouchableOpacit
 //import { GradientView } from '../../Common'
 import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
 import { SearchBar, Grid, Col, Row, Card, ListItem, List, Avatar, Button } from 'react-native-elements'
-import Icon from 'react-native-vector-icons/FontAwesome';
+import Icon from 'react-native-vector-icons/Ionicons';
 
 const { width, height } = Dimensions.get('window');
 
@@ -134,11 +134,11 @@ export class SearchMap extends Component {
                                               onPress={this._onBackbutton.bind(this, "InitialConver")}>
                                 <Icon
                                     style={{top:8}}
-                                    name='map-o'
-                                    size={25} color="fa fa-angle-left"/>
+                                    name='md-arrow-round-back'
+                                    size={25} color="black"/>
                             </TouchableOpacity>
                         </Col>
-                        <Col size={10}>
+                        <Col size={8}>
                             <SearchBar
                                 round
                                 lightTheme
@@ -151,8 +151,8 @@ export class SearchMap extends Component {
                                               onPress={this._onBackbutton.bind(this, "SearchList")}>
                                 <Icon
                                     style={{top:8}}
-                                    name='map-o'
-                                    size={25} color="fa fa-angle-left"/>
+                                    name='ios-chatbubbles'
+                                    size={35} color="black"/>
                             </TouchableOpacity>
                         </Col>
                     </Row>

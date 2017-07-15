@@ -15,7 +15,7 @@ import {User} from './User';
 import styles from '../styles';
 
 const Fab = MKButton.plainFab()
-  .withBackgroundColor('#26a69a')
+  .withBackgroundColor('white')
   .withStyle([styles.w3, styles.h3, styles.rounded, styles.border0])
   .build();
 
@@ -77,10 +77,7 @@ export class ChatInput extends Component {
     return (
       <View style={containerStyle}>
         <View style={[styles.flxRow, styles.jcStart]}>
-          <View style={[styles.mt1]}>
-            <Icon name="message" size={30} color="white" />
-          </View>
-          <View style={[styles.h3, styles.mh2, styles.borderBHl]}>
+          <View style={[styles.h3, styles.mh3, styles.borderBHl]}>
             <TextInput ref="input"
               style={{borderBottomColor: 'white'}}
               placeholder="Type your message" placeholderTextColor="#ccc"
@@ -89,7 +86,7 @@ export class ChatInput extends Component {
             />
           </View>
           <Fab onPress={() => this.onSubmit()}>
-            <Icon name="send" size={25} color="white" />
+            <Icon name="send" size={25} color="black" />
           </Fab>
         </View>
         <View style={[styles.mt2, styles.flxRow, styles.rounded6, styles.bgSilver, styles.h2, {width: 130}]}>

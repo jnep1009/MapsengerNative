@@ -118,6 +118,7 @@ class BareConversation extends Component {
                 {this.state.mainPage === 'InitialConver' ? (
                     <Animated.View style={containerStyle}>
                         <ChatHeader
+                            currentPage={this.state.activePage}
                             signOut={disconnect}
                             channel={selectedChannel}
                             focusModal={this._setNavigation.bind(this)}

@@ -10,7 +10,7 @@ import {
     View,
     TouchableOpacity,
 } from 'react-native';
-import Icon from 'react-native-vector-icons/FontAwesome';
+import Icon from 'react-native-vector-icons/Ionicons';
 import { SearchBar, Grid, Col, Row, Card, ListItem } from 'react-native-elements'
 import styles from '../styles';
 
@@ -80,8 +80,8 @@ export class SearchPage extends Component {
                                               onPress={this._onBackbutton.bind(this, "InitialConver")}>
                                 <Icon
                                     style={{top:8}}
-                                    name='map-o'
-                                    size={25} color="fa fa-angle-left"/>
+                                    name='md-arrow-round-back'
+                                    size={25} color="black"/>
                             </TouchableOpacity>
                         </Col>
                         <Col size={10}>
