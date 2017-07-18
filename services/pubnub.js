@@ -159,10 +159,11 @@ export const history = (channel, startTime) =>
             .catch(reject);
     });
 
-export const settingState = (channel, lat, lng, avatar) =>
+export const settingState = (channel, id, lat, lng, avatar) =>
     connect().then(({ pubnub }) => {
         pubnub.setState({
             channels: [channel],
+            uuid: id,
             state: {
                 lat: lat,
                 lng: lng,

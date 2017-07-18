@@ -30,10 +30,6 @@ export class ChatHeader extends Component {
             styles.pt3,
         ];
 
-        const visual = props.channel.type === 'open' ?
-            (<Icon name="people" size={styles.iconSize} color="white"/>) :
-            null;
-
         return (
             <View style={containerStyle}>
                 <Grid>
@@ -42,7 +38,12 @@ export class ChatHeader extends Component {
                             round
                             lightTheme
                             underlineColorAndroid="transparent"
-                            containerStyle={{backgroundColor: '#5a43c8', borderColor: '#5a43c8'}}
+                            containerStyle={{
+                            backgroundColor: '#5a43c8',
+                            borderColor: '#5a43c8',
+                            borderTopWidth:0,
+                            borderBottomWidth:0
+                            }}
                             onFocus={ this._onFocus.bind(this) }
                             placeholder='Type Here...'/>
                     </Col>

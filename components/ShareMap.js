@@ -126,6 +126,29 @@ export class ShareMap extends Component {
                             </View>
                         </MapView.Callout>
                     </MapView.Marker>
+                    {
+                        this.props.allFriends.map((friend, i) => {
+                            return (
+                                <MapView.Marker
+                                    ref={ref => { friend.id = ref; }}
+                                    onPress={() => this.show(friend.id)}
+                                    coordinate={{
+                           latitude: friend.lat,
+                           longitude: friend.lng
+                        }}>
+                                    <Image
+                                        style={{width: 40, height: 40, borderRadius: 40 / 2, borderWidth: 1, borderColor: 'white'}}
+                                        source={{uri: friend.avatarUrl}}/>
+                                    <MapView.Callout
+                                        style={{
+                             width: 60
+                            }}
+                                    >
+                                    </MapView.Callout>
+                                </MapView.Marker>
+                            )
+                        })
+                    }
                 </MapView>
             </View>
         );
@@ -145,6 +168,8 @@ ShareMap.propTypes = {
     user: PropTypes.object,
     allPOI: PropTypes.array,
     fromWhere: React.PropTypes.string,
-    placeMarkerLoc: React.PropTypes.array
+    placeMarkerLoc: React.PropTypes.array,
+    allFriends: PropTypes.array
+
 
 }; 

@@ -29,13 +29,13 @@ export class SearchPage extends Component {
     }
 
     _onSubmit(e) {
-        if(e.nativeEvent.key == "Enter") {
+        if (e.nativeEvent.key == "Enter") {
             const message = this.state.search;
             this.props.searchText(message);
         }
     }
 
-    _onBackbutton(page){
+    _onBackbutton(page) {
         this.props.backButton(page);
     }
 
@@ -92,7 +92,12 @@ export class SearchPage extends Component {
                                 ref='SearchInput'
                                 onChangeText={(value) => this.setState({search: value})}
                                 onKeyPress={this._onSubmit.bind(this)}
-                                containerStyle={{backgroundColor: 'transparent', borderRadius: 0}}
+                                containerStyle={{
+                                backgroundColor: 'transparent',
+                                 borderRadius: 0,
+                                     borderTopWidth:0,
+                            borderBottomWidth:0
+                                 }}
                                 placeholder='Search for places here'/>
                         </Col>
                     </Grid>
@@ -124,6 +129,6 @@ export class SearchPage extends Component {
 SearchPage.propTypes = {
     searchText: PropTypes.func,
     onMenuClick: PropTypes.func,
-    backButton:  PropTypes.func
+    backButton: PropTypes.func
 
 };

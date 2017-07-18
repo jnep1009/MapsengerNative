@@ -41,7 +41,7 @@ export class SearchList extends Component {
         this.props.focusModal('SearchPage');
     }
 
-    _onBackbutton(page){
+    _onBackbutton(page) {
         this.props.backButton(page);
     }
 
@@ -172,7 +172,12 @@ export class SearchList extends Component {
                                 lightTheme
                                 underlineColorAndroid="transparent"
                                 onFocus={ this._onFocus.bind(this) }
-                                containerStyle={{backgroundColor: 'transparent', borderRadius: 0}}
+                                containerStyle={{
+                                backgroundColor: 'transparent',
+                                borderRadius: 0,
+                                 borderTopWidth:0,
+                                  borderBottomWidth:0
+                                }}
                                 placeholder={this.props.searchText}/>
                         </Col>
                         <Col size={1}>
@@ -188,30 +193,37 @@ export class SearchList extends Component {
                          style={{marginTop: -23}}
                     >
                         <Col size={12}>
-                            <ScrollView>
-                                {
-                                    this.state.places.map((place, i) => {
-                                        return (
-                                            <List>
+                            <List>
+                                <ScrollView
+                                    style={{
+                                flex: 1,
+                                }}
+                                >
+                                    {
+                                        this.state.places.map((place, i) => {
+                                            return (
+                                                <View>
+                                                    { place.existing === "item-share" ? (
 
-                                                { place.existing === "item-share" ? (
+                                                        <ListItem
+                                                            key={i}
+                                                            containerStyle={{
+                                                            backgroundColor: 'white',
+                                                            borderTopWidth:0,
+                                                            borderWidth:0,
 
-                                                    <ListItem
-                                                        key={i}
-                                                        containerStyle={{
-                                                            backgroundColor: 'white'
                                                          }}
-                                                        titleStyle={{
+                                                            titleStyle={{
                                                 fontSize: 23,
                                                 color: "black"
                                             }}
-                                                        subtitleStyle={{
+                                                            subtitleStyle={{
                                                 fontSize: 22,
                                                 color: "black"
                                             }}
-                                                        roundAvatar
-                                                        title={place.name}
-                                                        subtitle={
+                                                            roundAvatar
+                                                            title={place.name}
+                                                            subtitle={
                                                 <View style={stylesList.subtitleView}>
                                                     <Text>
                                                     {place.distance + `away`}
@@ -225,7 +237,7 @@ export class SearchList extends Component {
                                                 </View>
                                             }
 
-                                                        rightIcon={
+                                                            rightIcon={
                                                 <Button
                                                         style={{
                                                             marginTop: 12,
@@ -233,26 +245,26 @@ export class SearchList extends Component {
                                                         onPress={this._shareMarker.bind(this, place, i)}
                                                         title='Share' />
                                                     }
-                                                    />
+                                                        />
 
-                                                ) : place.existing === "item-shared" ? (
+                                                    ) : place.existing === "item-shared" ? (
 
-                                                    <ListItem
-                                                        key={i}
-                                                        containerStyle={{
+                                                        <ListItem
+                                                            key={i}
+                                                            containerStyle={{
                                                             backgroundColor: 'white'
                                                          }}
-                                                        titleStyle={{
+                                                            titleStyle={{
                                                 fontSize: 23,
                                                 color: "black"
                                             }}
-                                                        subtitleStyle={{
+                                                            subtitleStyle={{
                                                 fontSize: 22,
                                                 color: "black"
                                             }}
-                                                        roundAvatar
-                                                        title={place.name}
-                                                        subtitle={
+                                                            roundAvatar
+                                                            title={place.name}
+                                                            subtitle={
                                                 <View style={stylesList.subtitleView}>
                                                     <Text>
                                                     {place.distance + `away`}
@@ -265,17 +277,19 @@ export class SearchList extends Component {
                                                     </Text>
                                                 </View>
                                             }
-                                                        rightIcon={
+                                                            rightIcon={
                                                          <Image
                                                         style={{width: 18, height: 26, marginTop: 15, marginRight: 10}}
                                                         source={{uri: "https://i.imgur.com/s3gWqrp.png"}}/>}
                                                         />
-                                                ) : null }
-                                            </List>
-                                        );
-                                    })
-                                }
-                            </ScrollView>
+                                                    ) : null }
+                                                </View>
+                                            );
+                                        })
+                                    }
+                                </ScrollView>
+
+                            </List>
                         </Col>
                     </Row>
                 </Grid>
@@ -292,6 +306,6 @@ SearchList.propTypes = {
     publishMessage: PropTypes.func,
     user: PropTypes.object,
     focusModal: PropTypes.func,
-    backButton:  PropTypes.func
+    backButton: PropTypes.func
 
 };

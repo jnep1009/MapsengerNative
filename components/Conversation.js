@@ -130,6 +130,7 @@ class BareConversation extends Component {
                                          fetchHistory={() => this.fetchHistory()}/>)
                             : this.state.activePage === 'ShareMap' ? (
                             <ShareMap
+                                allFriends={this.state.allFriends}
                                 fromWhere={this.state.fromWhereToMap}
                                 currentLoc={this.state.currentLoc}
                                 user={user}
@@ -162,6 +163,7 @@ class BareConversation extends Component {
                     />
                 ) : this.state.mainPage === 'SearchMap' ? (
                     <SearchMap
+                        allFriends={this.state.allFriends}
                         user={user}
                         allPOI={this.props.history}
                         currentLoc={this.state.currentLoc}
@@ -182,7 +184,7 @@ class BareConversation extends Component {
                 const lat = position.coords.latitude;
                 const lng = position.coords.longitude;
                 const pic = this.props.user.avatarUrl;
-                settingState(this.props.selectedChannel.name, lat, lng, pic);
+                settingState(this.props.selectedChannel.name, this.props.user.id, lat, lng, pic);
                 this.setState({
                     currentLoc: [lat, lng]
                 })
