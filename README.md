@@ -12,6 +12,7 @@ Install the npm packages using:
 $ npm install
 ```
 ### iOS
+- Go to github to register developer application.
 - Go to **Developer applications** tab, then click on the **Register new application** button
 - **Application name**: Your app name
 - **Homepage URL**: *http://localhost:3000*
