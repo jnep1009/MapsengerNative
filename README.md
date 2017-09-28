@@ -9,6 +9,7 @@ Clone this repository.
 Install the npm packages using:
 
 ```bash
+$ npm install -g react-native-cli
 $ npm install
 ```
 ### iOS
