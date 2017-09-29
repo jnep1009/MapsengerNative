@@ -11,6 +11,7 @@ Install the npm packages using:
 ```bash
 $ npm install -g react-native-cli
 $ npm install
+$ rm -rf /usr/local/var/run/watchman/ && brew uninstall watchman && brew install watchman
 ```
 ### iOS
 - Go to github to register developer application.
